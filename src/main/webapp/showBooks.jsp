@@ -4,8 +4,8 @@
 	import="java.util.*, com.miw.model.Book,com.miw.presentation.book.*"
 	errorPage=""%>
 
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 

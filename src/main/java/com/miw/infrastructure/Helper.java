@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 
 /**
- * Esta clase solo tiene métodos de utilidad usados desde @see Factories
+ * Esta clase solo tiene mï¿½todos de utilidad usados desde @see Factories
  * 
  * @author alb
  *
@@ -13,24 +13,21 @@ import java.util.Properties;
 public class Helper {
 
 	/**
-	 * Devuelve instancia de la clase factory deseada. Crea un objeto a partir
-	 * del nombre de la clase
+	 * Devuelve instancia de la clase factory deseada. Crea un objeto a partir del
+	 * nombre de la clase
 	 * 
-	 * @param file  
-	 * 		El fichero de propiedades 
-	 * @param factoryType 
-	 * 		El nombre de la propiedad en el fichero de proerties
-	 * @return 
-	 * 		El objeto de la clase factoria adecuada
+	 * @param file        El fichero de propiedades
+	 * @param factoryType El nombre de la propiedad en el fichero de proerties
+	 * @return El objeto de la clase factoria adecuada
 	 */
 	static Object createFactory(String file, String factoryType) {
-		
+
 		String className = loadProperty(file, factoryType);
 		try {
-			
+
 			Class<?> clazz = Class.forName(className);
 			return clazz.getDeclaredConstructor().newInstance();
-			
+
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		} catch (InstantiationException e) {
@@ -49,8 +46,9 @@ public class Helper {
 	}
 
 	/**
-	 * Carga un propiedad desde fichero de propiedades
-	 * Lanza runtime exception si no existe la propiedad
+	 * Carga un propiedad desde fichero de propiedades Lanza runtime exception si no
+	 * existe la propiedad
+	 * 
 	 * @param file
 	 * @param property
 	 * @return
@@ -58,17 +56,39 @@ public class Helper {
 	static String loadProperty(String file, String property) {
 		Properties p = new Properties();
 		try {
-			
+
 			p.load(Factories.class.getResourceAsStream(file));
-			
+
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 		String value = p.getProperty(property);
-		if (value == null){
+		if (value == null) {
 			throw new RuntimeException("Property not found in " + file);
 		}
 		return value;
+	}
+	
+	public static <T> T createInstance(
+	        String file,
+	        String property,
+	        Class<T> expectedType) {
+
+	    String className = loadProperty(file, property);
+
+	    try {
+	        Class<? extends T> type = Class
+	                .forName(className.trim())
+	                .asSubclass(expectedType);
+
+	        return type.getDeclaredConstructor().newInstance();
+
+	    } catch (ReflectiveOperationException | ClassCastException e) {
+	        throw new IllegalStateException(
+	                "No se pudo crear la clase configurada en "
+	                        + file + ": " + property,
+	                e);
+	    }
 	}
 
 }

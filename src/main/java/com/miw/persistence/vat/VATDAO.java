@@ -10,7 +10,7 @@ import com.miw.persistence.Dba;
 
 import jakarta.persistence.EntityManager;
 
-public class VATDAO implements VATDataService  {
+public class VATDAO implements VATDataService {
 
 	protected Logger logger = LogManager.getLogger(getClass());
 
@@ -24,7 +24,7 @@ public class VATDAO implements VATDataService  {
 
 			resultList = em.createQuery("Select a From VAT a", VAT.class).getResultList();
 
-			logger.debug("Result list: "+ resultList.toString());
+			logger.debug("Result list: " + resultList.toString());
 
 		} finally {
 			// 100% sure that the transaction and entity manager will be closed

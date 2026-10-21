@@ -3,14 +3,20 @@ package com.miw.presentation.controller;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.miw.infrastructure.Factories;
 import com.miw.presentation.commands.Command;
 import com.miw.presentation.di.HttpSessionAware;
 import com.miw.presentation.di.ServletContextAware;
 import com.miw.presentation.di.ServletRequestAware;
+import com.miw.presentation.interceptores.AccessDeniedException;
+import com.miw.presentation.interceptores.Interceptor;
+import com.miw.presentation.interceptores.InterceptorChain;
+import com.miw.presentation.interceptores.InvocationContext;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -25,19 +31,17 @@ public class ControllerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected Logger logger = LogManager.getLogger(getClass());
 
-	Command command = null;
+	
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-		// We execute the received command
+		Command command = null;
 		String action = req.getParameter("action");
 		if (action != null) {
 			logger.debug("Executing action" + action);
 
 			command = ControllerConfigurationManager.getInstance().getCommand(action);
 
-			// We execute the command and redirect
 			if (command != null) {
 				// dependency injection
 				if (command instanceof ServletRequestAware) {
@@ -53,19 +57,48 @@ public class ControllerServlet extends HttpServlet {
 					((ServletContextAware) command).setServletContext(req.getServletContext());
 				}
 
-				populateParameters(req, resp);
+				populateParameters(req, resp, command);
 
-				command.execute();
+				List<Interceptor> interceptors =
+				        Factories.interceptors.createInterceptors(
+				                action,
+				                req,
+				                logger);
+				
+				
+				InvocationContext context = new InvocationContext(
+				        action,
+				        command.getClass(),
+				        req);
 
-				RequestDispatcher dispatcher = req
-						.getRequestDispatcher(ControllerConfigurationManager.getInstance().getForward(action));
-				dispatcher.forward(req, resp);
+				InterceptorChain chain = new InterceptorChain(
+				        interceptors,
+				        command,
+				        context);
+				try {
+				    chain.proceed();
+
+				    String view = ControllerConfigurationManager
+				            .getInstance()
+				            .getForward(action);
+
+				    req.getRequestDispatcher(view).forward(req, resp);
+
+				} catch (AccessDeniedException e) {
+				    resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
+
+				    req.setAttribute("errorMessage", e.getMessage());
+
+				    req.getRequestDispatcher("/accessDenied.jsp")
+				            .forward(req, resp);
+				}
+
 			}
 		}
 
 	}
 
-	private void populateParameters(HttpServletRequest req, HttpServletResponse resp) {
+	private void populateParameters(HttpServletRequest req, HttpServletResponse resp, Command command) {
 		for (String s : req.getParameterMap().keySet()) {
 			try {
 				Method m = command.getClass().getMethod("set" + s.substring(0, 1).toUpperCase() + s.substring(1),

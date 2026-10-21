@@ -10,7 +10,7 @@ import com.miw.persistence.Dba;
 
 import jakarta.persistence.EntityManager;
 
-public class BookDAO implements BookDataService  {
+public class BookDAO implements BookDataService {
 
 	protected Logger logger = LogManager.getLogger(getClass());
 
@@ -24,7 +24,7 @@ public class BookDAO implements BookDataService  {
 
 			resultList = em.createQuery("Select a From Book a", Book.class).getResultList();
 
-			logger.debug("Result list: "+ resultList.toString());
+			logger.debug("Result list: " + resultList.toString());
 			for (Book next : resultList) {
 				logger.debug("next book: " + next);
 			}

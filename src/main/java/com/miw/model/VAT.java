@@ -14,30 +14,34 @@ public class VAT {
 	private int id;
 	private Double value;
 	private int taxGroup;
-	
+
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public Double getValue() {
 		return value;
 	}
+
 	public void setValue(Double value) {
 		this.value = value;
 	}
+
 	public int getTaxGroup() {
 		return taxGroup;
 	}
+
 	public void setTaxGroup(int taxGroup) {
 		this.taxGroup = taxGroup;
 	}
+
 	@Override
 	public String toString() {
 		return "VAT [id=" + id + ", value=" + value + ", taxGroup=" + taxGroup + "]";
 	}
 
-	
-	
 }
