@@ -13,10 +13,10 @@ import com.miw.presentation.commands.Command;
 import com.miw.presentation.di.HttpSessionAware;
 import com.miw.presentation.di.ServletContextAware;
 import com.miw.presentation.di.ServletRequestAware;
-import com.miw.presentation.interceptores.AccessDeniedException;
-import com.miw.presentation.interceptores.Interceptor;
-import com.miw.presentation.interceptores.InterceptorChain;
-import com.miw.presentation.interceptores.InvocationContext;
+import com.miw.presentation.interceptors.AccessDeniedException;
+import com.miw.presentation.interceptors.Interceptor;
+import com.miw.presentation.interceptors.InterceptorChain;
+import com.miw.presentation.interceptors.InvocationContext;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;

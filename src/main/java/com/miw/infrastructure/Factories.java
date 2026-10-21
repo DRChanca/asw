@@ -2,7 +2,7 @@ package com.miw.infrastructure;
 
 import com.miw.business.ServicesFactory;
 import com.miw.persistence.DataServicesFactory;
-import com.miw.presentation.interceptores.InterceptorsFactory;
+import com.miw.presentation.interceptors.InterceptorsFactory;
 
 /**
  * Esta clase es la que realemente relaciona las interfaces de las capas con sus

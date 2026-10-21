@@ -6,7 +6,7 @@ import java.util.Properties;
 
 import com.miw.presentation.di.HttpSessionAware;
 import com.miw.presentation.di.ServletRequestAware;
-import com.miw.presentation.interceptores.AuthorizationInterceptor;
+import com.miw.presentation.interceptors.AuthorizationInterceptor;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -18,7 +18,6 @@ public class LoginCommand
     private HttpServletRequest request;
     private String username;
 
-    // populateParameters lo llama al recibir el campo "username".
     public void setUsername(String username) {
         this.username = username;
     }
@@ -35,6 +34,7 @@ public class LoginCommand
 
     @Override
     public void execute() {
+    	logger.debug("Ejecutando LoginCommand");
         Properties users = loadUsers();
 
         String selectedUser =
@@ -51,10 +51,9 @@ public class LoginCommand
             return;
         }
 
-        // Cambia el identificador de sesión al iniciar sesión.
+
         request.changeSessionId();
 
-        // AQUÍ guardamos la identidad que leerá autorización.
         session.setAttribute(
                 AuthorizationInterceptor.USER_SESSION_ATTRIBUTE,
                 selectedUser);
