@@ -10,7 +10,7 @@ import jakarta.persistence.Persistence;
 public class Dba {
 
 	private static volatile boolean initialized = false;
-	
+
 	private static EntityManagerFactory emf = null;
 
 	protected Logger logger = LogManager.getLogger(getClass());
@@ -98,7 +98,7 @@ public class Dba {
 			return;
 		}
 
-		synchronized (this){
+		synchronized (this) {
 
 			if (initialized) {
 				return;

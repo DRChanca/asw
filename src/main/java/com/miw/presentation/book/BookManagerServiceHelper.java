@@ -20,5 +20,5 @@ public class BookManagerServiceHelper {
 		logger.debug("Retrieving Special Offer from Business Layer");
 		return (Factories.services.getBookManagerService()).getSpecialOffer();
 	}
-	
+
 }

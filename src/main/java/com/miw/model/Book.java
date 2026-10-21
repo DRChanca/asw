@@ -13,18 +13,17 @@ import jakarta.persistence.Transient;
 
 @Entity
 public class Book {
-	
-	
-	@Id @GeneratedValue
+
+	@Id
+	@GeneratedValue
 	private int id;
 	private String title;
 	private String description;
 	private String author;
 	@JoinColumn(name = "taxGroup", nullable = false)
-    @ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private VAT vat;
 	private double basePrice;
-	
 
 	@Transient
 	private double price;
@@ -33,12 +32,10 @@ public class Book {
 		return price;
 	}
 
-	
 	public Book() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
 
 	public Book(double price, String title, String description, String author, VAT vat, double basePrice) {
 		super();
@@ -49,18 +46,14 @@ public class Book {
 		this.vat = vat;
 		this.basePrice = basePrice;
 	}
-	
-	
 
 	public VAT getVat() {
 		return vat;
 	}
 
-
 	public void setVat(VAT vat) {
 		this.vat = vat;
 	}
-
 
 	public void setPrice(double price) {
 		this.price = price;
@@ -108,7 +101,7 @@ public class Book {
 
 	@Override
 	public String toString() {
-		return "Book [id=" + id + ", title=" + title + ", description=" + description + ", author=" + author
-				+ ", vat=" + vat + ", basePrice=" + basePrice + ", price=" + price + "]";
+		return "Book [id=" + id + ", title=" + title + ", description=" + description + ", author=" + author + ", vat="
+				+ vat + ", basePrice=" + basePrice + ", price=" + price + "]";
 	}
 }

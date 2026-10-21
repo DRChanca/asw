@@ -2,19 +2,20 @@ package com.miw.infrastructure;
 
 import com.miw.business.ServicesFactory;
 import com.miw.persistence.DataServicesFactory;
+import com.miw.presentation.interceptors.InterceptorsFactory;
 
 /**
  * Esta clase es la que realemente relaciona las interfaces de las capas con sus
  * implementaciones finales.
  * 
- * Se toma la configración de un fichero de propiedades de manera que cambiar la
- * configraciónn de la aplicación (cambiar de implementación en alguna capa)
- * quedará ahora reducido a cambiar el contenido del fichero
+ * Se toma la configraciï¿½n de un fichero de propiedades de manera que cambiar la
+ * configraciï¿½nn de la aplicaciï¿½n (cambiar de implementaciï¿½n en alguna capa)
+ * quedarï¿½ ahora reducido a cambiar el contenido del fichero
  * "factories.properties".
  * 
- * Este fichero, para esta implementación debe tener al menos estas dos
+ * Este fichero, para esta implementaciï¿½n debe tener al menos estas dos
  * propiedades SERVICES_FACTORY y PERSISTENCE_FACTORY
- *  
+ * 
  * Hay frameworks especializados en esto precisamente, por ejemplo Spring.
  * 
  * @author alb
@@ -22,12 +23,23 @@ import com.miw.persistence.DataServicesFactory;
  * 
  */
 public class Factories {
-	private static String CONFIG_FILE = "/factories.properties";
+    private static final String CONFIG_FILE =
+            "/factories.properties";
 
-	public static ServicesFactory services = (ServicesFactory) 
-			Helper.createFactory(CONFIG_FILE, "SERVICES_FACTORY");
+    public static ServicesFactory services =
+            (ServicesFactory) Helper.createFactory(
+                    CONFIG_FILE,
+                    "SERVICES_FACTORY");
+
+    public static DataServicesFactory dataServices =
+            (DataServicesFactory) Helper.createFactory(
+                    CONFIG_FILE,
+                    "PERSISTENCE_FACTORY");
+
+    public static InterceptorsFactory interceptors =
+            (InterceptorsFactory) Helper.createFactory(
+                    CONFIG_FILE,
+                    "INTERCEPTORS_FACTORY");
 	
-	public static DataServicesFactory dataServices = (DataServicesFactory) 
-			Helper.createFactory(CONFIG_FILE, "PERSISTENCE_FACTORY");
 
 }

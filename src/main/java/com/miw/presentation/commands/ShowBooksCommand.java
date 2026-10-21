@@ -11,8 +11,8 @@ import jakarta.servlet.http.HttpSession;
 
 public class ShowBooksCommand implements Command, HttpSessionAware, ServletRequestAware, ServletContextAware {
 	private HttpServletRequest request;
-	//private HttpSession session;
-	//private ServletContext context;
+	// private HttpSession session;
+	// private ServletContext context;
 
 	private String myParameter = null;
 
@@ -21,7 +21,7 @@ public class ShowBooksCommand implements Command, HttpSessionAware, ServletReque
 	}
 
 	public void setMyParameter(String myParameter) {
-		logger.debug("Setting myParameter to "+myParameter);
+		logger.debug("Setting myParameter to " + myParameter);
 		this.myParameter = myParameter;
 	}
 
@@ -36,7 +36,7 @@ public class ShowBooksCommand implements Command, HttpSessionAware, ServletReque
 	}
 
 	public void setServletContext(ServletContext context) {
-		//this.context = context;
+		// this.context = context;
 	}
 
 	public void setServletRequest(HttpServletRequest request) {
@@ -44,6 +44,6 @@ public class ShowBooksCommand implements Command, HttpSessionAware, ServletReque
 	}
 
 	public void setHttpSession(HttpSession session) {
-		//this.session = session;
+		// this.session = session;
 	}
 }
